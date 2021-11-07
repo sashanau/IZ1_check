@@ -15,9 +15,9 @@ TEST(stress_tests, stress_tests){
         size_t size_x = rand() % 10000;
         size_t size_y = rand() % 10000;
         matrix_error_t error;
-        error = set_matrix_mmap(&matrix1, size_x, size_y);
+        error = new_matrix_mmap(&matrix1, size_x, size_y);
         EXPECT_EQ(error, ERROR_OK);
-        error = set_matrix(&matrix2, size_x, size_y);
+        error = new_matrix(&matrix2, size_x, size_y);
         EXPECT_EQ(error, ERROR_OK);
         int val = 0;
         for (size_t i = 0; i < size_y; ++i) {
@@ -29,8 +29,9 @@ TEST(stress_tests, stress_tests){
                 EXPECT_EQ(error, ERROR_OK);
             }
         }
+
         matrix_reverse_parallel(&matrix1, (long int) (rand() % 8));
-        reverse_matrix(&matrix2);
+        reverse_matrix(&matrix2, 0);
 
         for (size_t i = 0; i < size_x * size_y; i++)
             EXPECT_EQ(matrix1.array[i], matrix2.array[i]);

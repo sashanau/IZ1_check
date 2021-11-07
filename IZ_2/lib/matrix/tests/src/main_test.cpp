@@ -21,7 +21,7 @@ TEST(init_matrix, init_matrix_null) {
 TEST(set_elem, set_elem){
     matrix_t matrix;
     init_matrix(&matrix);
-    set_matrix(&matrix, 10, 10);
+    new_matrix(&matrix, 10, 10);
     EXPECT_EQ(matrix.array[0], 0);
     matrix_error_t error = set_elem(&matrix, 0, 0, 1);
     EXPECT_EQ(error, ERROR_OK);
@@ -37,11 +37,34 @@ TEST(set_elem, set_elem_null){
 TEST(set_elem, set_elem_out_range){
     matrix_t matrix;
     init_matrix(&matrix);
-    set_matrix(&matrix, 10, 10);
+    new_matrix(&matrix, 10, 10);
     matrix_error_t error = set_elem(&matrix, 100, 100, 1);
     EXPECT_EQ(error, ERROR_OUT_RANGE_SET);
     free_matrix(&matrix);
 }
+
+TEST(set_matrix_rand_elem_1_9, set_matrix_rand_elem_1_9){
+    matrix_t matrix;
+    init_matrix(&matrix);
+    matrix_error_t error;
+    error = new_matrix(&matrix, 1000, 1000);
+    EXPECT_EQ(error, ERROR_OK);
+    error = set_matrix_rand_elem_1_9(&matrix);
+    EXPECT_EQ(error, ERROR_OK);
+    for (size_t i = 0; i < matrix.size_x * matrix.size_y; ++i) {
+        EXPECT_GT(matrix.array[i], 0);
+        EXPECT_LT(matrix.array[i], 10);
+    }
+    error = free_matrix(&matrix);
+    EXPECT_EQ(error, ERROR_OK);
+}
+
+TEST(set_matrix_rand_elem_1_9, set_matrix_rand_elem_1_9_null){
+    matrix_error_t error;
+    error = set_matrix_rand_elem_1_9(NULL);
+    EXPECT_EQ(error, ERROR_NULL_PTR_REFERENCE);
+}
+
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);

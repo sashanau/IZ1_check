@@ -9,112 +9,76 @@ extern "C"{
 TEST(reverse_matrix, reverse_matrix_horizontal){
     matrix_t matrix;
     init_matrix(&matrix);
-    set_matrix(&matrix, 100,10);
-    int value = 0, temp_00, temp_33, temp_90, temp_999;
+    new_matrix(&matrix, 100,10);
 
-    for (size_t i = 0; i < matrix.size_y; i++) {
-        for (size_t j = 0; j < matrix.size_x; j++) {
-            value = rand() % 10;
-            set_elem(&matrix, j, i, value);
-            if (i == 0 && j == 0)
-                temp_00 = value;
-            else if (i == 3 && j == 3)
-                temp_33 = value;
-            else if (i == 9 && j == 0)
-                temp_90 = value;
-            else if(i == 9 && j == 99)
-                temp_999 = value;
-        }
-    }
-    reverse_matrix(&matrix);
-    EXPECT_EQ(temp_00, matrix.array[9 * matrix.size_x + 9]);
-    EXPECT_EQ(temp_33, matrix.array[6 * matrix.size_x + 6]);
-    EXPECT_EQ(temp_90, matrix.array[9 * matrix.size_x + 0]);
-    EXPECT_EQ(temp_999, matrix.array[9 * matrix.size_x + 99]);
+    set_matrix_rand_elem_1_9(&matrix);
+    set_elem(&matrix, 0, 0, 228);
+    set_elem(&matrix, 3, 3, 228);
+    set_elem(&matrix, 99, 0, 228);
+    reverse_matrix(&matrix, 0);
+    EXPECT_EQ(228, matrix.array[99 * matrix.size_x + 9]);
+    EXPECT_EQ(228, matrix.array[96 * matrix.size_x + 6]);
+    EXPECT_EQ(228, matrix.array[0 * matrix.size_x + 9]);
     free_matrix(&matrix);
 }
 // Тест прямоугольной матрицы вытянутой по вертикали, делаю выботочную проверку из крайних точек
 TEST(reverse_matrix, reverse_matrix_vertical){
     matrix_t matrix;
     init_matrix(&matrix);
-    set_matrix(&matrix, 10,100);
-    int value = 0, temp_00, temp_909, temp_900, temp_933;
+    set_matrix_rand_elem_1_9(&matrix);
+    new_matrix(&matrix, 10,100);
 
-    for (size_t i = 0; i < matrix.size_y; i++) {
-        for (size_t j = 0; j < matrix.size_x; j++) {
-            value = rand() % 10;
-            set_elem(&matrix, j, i, value);
-            if (i == 0 && j == 0)
-                temp_00 = value;
-            else if (i == 90 && j == 9)
-                temp_909 = value;
-            else if (i == 90 && j == 0)
-                temp_900 = value;
-            else if (i == 93 && j == 3)
-                temp_933 = value;
-        }
-    }
-    reverse_matrix(&matrix);
-    EXPECT_EQ(temp_00, matrix.array[0 * matrix.size_x + 0]);
-    EXPECT_EQ(temp_909, matrix.array[90 * matrix.size_x + 9]);
-    EXPECT_EQ(temp_900, matrix.array[99 * matrix.size_x + 9]);
-    EXPECT_EQ(temp_933, matrix.array[96 * matrix.size_x + 6]);
+    set_elem(&matrix, 0, 0, 228);
+    set_elem(&matrix, 3, 3, 228);
+    set_elem(&matrix, 9, 99, 228);
+    reverse_matrix(&matrix, 0);
+    EXPECT_EQ(228, matrix.array[9 * matrix.size_x + 99]);
+    EXPECT_EQ(228, matrix.array[6 * matrix.size_x + 96]);
+    EXPECT_EQ(228, matrix.array[0 * matrix.size_x + 0]);
     free_matrix(&matrix);
 }
 
 TEST(reverse_matrix, reverse_matrix_vertical_line){
     matrix_t matrix;
     init_matrix(&matrix);
-    set_matrix(&matrix, 1,100);
-    int value = 0, temp_00, temp_90;
+    new_matrix(&matrix, 1,100);
 
-    for (size_t i = 0; i < matrix.size_y; i++) {
-        for (size_t j = 0; j < matrix.size_x; j++) {
-            value = rand() % 10;
-            set_elem(&matrix, j, i, value);
-            if (i == 0 && j == 0)
-                temp_00 = value;
-            else if (i == 9 && j == 0)
-                temp_90 = value;
-        }
-    }
-    reverse_matrix(&matrix);
-    EXPECT_EQ(temp_00, matrix.array[0 * matrix.size_x + 0]);
-    EXPECT_EQ(temp_90, matrix.array[9 * matrix.size_x + 0]);
+    set_matrix_rand_elem_1_9(&matrix);
+    set_elem(&matrix, 0, 0, 228);
+    set_elem(&matrix, 0, 99, 228);
+    set_elem(&matrix, 0, 50, 228);
+    reverse_matrix(&matrix, 0);
+    EXPECT_EQ(228, matrix.array[0 * matrix.size_x + 0]);
+    EXPECT_EQ(228, matrix.array[0 * matrix.size_x + 49]);
+    EXPECT_EQ(228, matrix.array[0 * matrix.size_x + 99]);
     free_matrix(&matrix);
 }
 
 TEST(reverse_matrix, reverse_matrix_horizontal_line){
     matrix_t matrix;
     init_matrix(&matrix);
-    set_matrix(&matrix, 100,1);
-    int value = 0, temp_00, temp_09;
+    new_matrix(&matrix, 100,1);
 
-    for (size_t i = 0; i < matrix.size_y; i++) {
-        for (size_t j = 0; j < matrix.size_x; j++) {
-            value = rand() % 10;
-            set_elem(&matrix, j, i, value);
-            if (i == 0 && j == 0)
-                temp_00 = value;
-            else if (i == 0 && j == 9)
-                temp_09 = value;
-        }
-    }
-    reverse_matrix(&matrix);
-    EXPECT_EQ(temp_00, matrix.array[0 * matrix.size_x + 0]);
-    EXPECT_EQ(temp_09, matrix.array[0 * matrix.size_x + 9]);
+    set_matrix_rand_elem_1_9(&matrix);
+    set_elem(&matrix, 0, 0, 228);
+    set_elem(&matrix, 99, 0, 228);
+    set_elem(&matrix, 50, 0, 228);
+    reverse_matrix(&matrix, 0);
+    EXPECT_EQ(228, matrix.array[0 * matrix.size_x + 0]);
+    EXPECT_EQ(228, matrix.array[99 * matrix.size_x + 0]);
+    EXPECT_EQ(228, matrix.array[49 * matrix.size_x + 0]);
     free_matrix(&matrix);
 }
 
 TEST(reverse_matrix, reverse_matrix_null){
     matrix_t *matrix = NULL;
-    reverse_matrix(matrix);
+    reverse_matrix(matrix, 0);
 }
 
-TEST(set_matrix, set_matrix){
+TEST(new_matrix, new_matrix){
     matrix_t matrix;
     init_matrix(&matrix);
-    matrix_error_t error = set_matrix(&matrix, 10000, 5000);
+    matrix_error_t error = new_matrix(&matrix, 10000, 5000);
     EXPECT_EQ(error, ERROR_OK);
     for(int i = 0; i < 5000; i++){
         for(int j = 0; j < 10000; j++){
@@ -124,22 +88,22 @@ TEST(set_matrix, set_matrix){
     free_matrix(&matrix);
 }
 
-TEST(set_matrix, set_matrix_less_than_0){
+TEST(new_matrix, new_matrix_less_than_0){
     matrix_t matrix;
     init_matrix(&matrix);
-    matrix_error_t error = set_matrix(&matrix, 0, 5000);
+    matrix_error_t error = new_matrix(&matrix, 0, 5000);
     EXPECT_EQ(error, ERROR_OUT_RANGE_SET);
 }
 
-TEST(set_matrix, set_matrix_null){
-    matrix_error_t error = set_matrix(NULL, 10000, 5000);
+TEST(new_matrix, new_matrix_null){
+    matrix_error_t error = new_matrix(NULL, 10000, 5000);
     EXPECT_EQ(error, ERROR_NULL_PTR_REFERENCE);
 }
 
 TEST(free_matrix, free_matrix){
     matrix_t matrix;
     init_matrix(&matrix);
-    matrix_error_t error = set_matrix(&matrix, 10000, 5000);
+    matrix_error_t error = new_matrix(&matrix, 10000, 5000);
     EXPECT_EQ(error, ERROR_OK);
     error = free_matrix(&matrix);
     EXPECT_EQ(error, ERROR_OK);

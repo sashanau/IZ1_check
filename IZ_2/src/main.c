@@ -1,24 +1,28 @@
 #include <stdlib.h>
-#include <stdio.h>
-#include "errors.h"
+#include <unistd.h>
 #include "matrix.h"
-
 #include "matrix_reverse.h"
 
-int main() {
+int main(int argc, char **argv) {
+    long int COUNT_PROCESS = 0;
+    if (argc != 2){
+        COUNT_PROCESS = sysconf(_SC_NPROCESSORS_ONLN);
+    } else {
+        COUNT_PROCESS = (long int)atoi(argv[1]);
+        if (COUNT_PROCESS <= 0)
+            return -1;
+    }
     matrix_t matrix;
     init_matrix(&matrix);
-    matrix_error_t error = set_matrix(&matrix, 10000,5000);
+    matrix_error_t error = new_matrix(&matrix, 10000,5000);
     if (error != ERROR_OK)
         return -1;
-    for (int i = 0; i < matrix.size_y; i++){
-            for (int j = 0; j < matrix.size_x; j++) {
-                error = set_elem(&matrix, j, i, (rand() % 10));
-                if (error != ERROR_OK)
-                    return -1;
-            }
-    }
-    reverse_matrix(&matrix);
+    error = set_matrix_rand_elem_1_9(&matrix);
+    if (error != ERROR_OK)
+        return -1;
+    error = reverse_matrix(&matrix, COUNT_PROCESS);
+    if (error != ERROR_OK)
+        return -1;
     error = free_matrix(&matrix);
     if (error != ERROR_OK)
         return -1;
