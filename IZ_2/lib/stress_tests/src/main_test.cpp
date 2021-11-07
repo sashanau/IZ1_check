@@ -1,14 +1,14 @@
 #include "gtest/gtest.h"
 
-extern "C"{
+extern "C" {
 #include "matrix.h"
 #include "matrix_reverse.h"
 #include "matrix_reverse_parallel.h"
 #include "errors.h"
 }
 
-TEST(stress_tests, stress_tests){
-    for(int k = 0; k < 4; k++){
+TEST(stress_tests, stress_tests) {
+    for (int k = 0; k < 4; k++) {
         matrix_t matrix1, matrix2;
         init_matrix(&matrix1);
         init_matrix(&matrix2);
@@ -20,8 +20,8 @@ TEST(stress_tests, stress_tests){
         error = new_matrix(&matrix2, size_x, size_y);
         EXPECT_EQ(error, OK);
         int val = 0;
-        for (size_t i = 0; i < size_y; ++i){
-            for (size_t j = 0; j < size_x; j++){
+        for (size_t i = 0; i < size_y; ++i) {
+            for (size_t j = 0; j < size_x; j++) {
                 val = int(rand() % 10000);
                 error = set_elem(&matrix1, j, i, val);
                 EXPECT_EQ(error, OK);
@@ -30,7 +30,7 @@ TEST(stress_tests, stress_tests){
             }
         }
 
-        matrix_reverse_parallel(&matrix1, (long int) (rand() % 8));
+        matrix_reverse_parallel(&matrix1, (long int)(rand() % 8));
         reverse_matrix(&matrix2, 0);
 
         for (size_t i = 0; i < size_x * size_y; i++)
@@ -44,7 +44,8 @@ TEST(stress_tests, stress_tests){
 }
 
 
-int main(int argc, char **argv){
+int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
+

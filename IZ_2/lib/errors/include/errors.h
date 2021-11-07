@@ -1,7 +1,7 @@
 #ifndef ERRORS_H
 #define ERRORS_H
 
-typedef enum{
+typedef enum {
     OK = 0,
     ERROR_NULL_PTR_REFERENCE,
     ERROR_MEMORY_ALLOCATION_ERROR,
@@ -10,4 +10,5 @@ typedef enum{
     ERROR_FORK_CLOSE
 } matrix_error_t;
 
-#endif
+#endif //ERRORS_H
+

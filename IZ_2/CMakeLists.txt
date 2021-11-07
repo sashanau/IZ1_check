@@ -16,7 +16,7 @@ add_subdirectory(lib/matrix_reverse_parallel_copy_interface)
 add_subdirectory(lib/matrix_reverse_parallel)
 add_subdirectory(lib/stress_tests)
 
-set(CHOOSE_MODE 0) #0 - linear else - parallel
+set(CHOOSE_MODE 1) #0 - linear else - parallel
 if(CHOOSE_MODE STREQUAL 0)
     add_executable(main src/main.c)
     target_link_libraries(main matrix matrix_reverse)

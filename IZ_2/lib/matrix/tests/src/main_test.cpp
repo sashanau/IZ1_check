@@ -1,11 +1,10 @@
 #include "gtest/gtest.h"
-
-extern "C"{
+extern "C" {
 #include "matrix.h"
 #include "matrix_reverse.h"
 }
 
-TEST(init_matrix, init_matrix){
+TEST(init_matrix, init_matrix) {
     matrix_t matrix;
     init_matrix(&matrix);
     EXPECT_EQ(matrix.array, (void *)NULL);
@@ -13,12 +12,12 @@ TEST(init_matrix, init_matrix){
     EXPECT_EQ(matrix.size_y, 0);
 }
 
-TEST(init_matrix, init_matrix_null){
+TEST(init_matrix, init_matrix_null) {
     matrix_t *matrix = NULL;
     init_matrix(matrix);
 }
 
-TEST(set_elem, set_elem){
+TEST(set_elem, set_elem) {
     matrix_t matrix;
     init_matrix(&matrix);
     new_matrix(&matrix, 10, 10);
@@ -29,12 +28,12 @@ TEST(set_elem, set_elem){
     free_matrix(&matrix);
 }
 
-TEST(set_elem, set_elem_null){
+TEST(set_elem, set_elem_null) {
     matrix_error_t error = set_elem(NULL, 1, 1, 1);
     EXPECT_EQ(error, ERROR_NULL_PTR_REFERENCE);
 }
 
-TEST(set_elem, set_elem_out_range){
+TEST(set_elem, set_elem_out_range) {
     matrix_t matrix;
     init_matrix(&matrix);
     new_matrix(&matrix, 10, 10);
@@ -43,7 +42,7 @@ TEST(set_elem, set_elem_out_range){
     free_matrix(&matrix);
 }
 
-TEST(set_matrix_rand_elem_1_9, set_matrix_rand_elem_1_9){
+TEST(set_matrix_rand_elem_1_9, set_matrix_rand_elem_1_9) {
     matrix_t matrix;
     init_matrix(&matrix);
     matrix_error_t error;
@@ -51,7 +50,7 @@ TEST(set_matrix_rand_elem_1_9, set_matrix_rand_elem_1_9){
     EXPECT_EQ(error, OK);
     error = set_matrix_rand_elem_1_9(&matrix);
     EXPECT_EQ(error, OK);
-    for (size_t i = 0; i < matrix.size_x * matrix.size_y; ++i){
+    for (size_t i = 0; i < matrix.size_x * matrix.size_y; ++i) {
         EXPECT_GT(matrix.array[i], 0);
         EXPECT_LT(matrix.array[i], 10);
     }
@@ -59,14 +58,53 @@ TEST(set_matrix_rand_elem_1_9, set_matrix_rand_elem_1_9){
     EXPECT_EQ(error, OK);
 }
 
-TEST(set_matrix_rand_elem_1_9, set_matrix_rand_elem_1_9_null){
+TEST(set_matrix_rand_elem_1_9, set_matrix_rand_elem_1_9_null) {
     matrix_error_t error;
     error = set_matrix_rand_elem_1_9(NULL);
     EXPECT_EQ(error, ERROR_NULL_PTR_REFERENCE);
 }
 
+TEST(new_matrix, new_matrix) {
+    matrix_t matrix;
+    init_matrix(&matrix);
+    matrix_error_t error = new_matrix(&matrix, 10000, 5000);
+    EXPECT_EQ(error, OK);
+    for (int i = 0; i < 5000; i++) {
+        for (int j = 0; j < 10000; j++) {
+            EXPECT_EQ(matrix.array[i * matrix.size_x + j], 0);
+        }
+    }
+    free_matrix(&matrix);
+}
 
-int main(int argc, char **argv){
+TEST(new_matrix, new_matrix_less_than_0) {
+    matrix_t matrix;
+    init_matrix(&matrix);
+    matrix_error_t error = new_matrix(&matrix, 0, 5000);
+    EXPECT_EQ(error, ERROR_OUT_RANGE_SET);
+}
+
+TEST(new_matrix, new_matrix_null) {
+    matrix_error_t error = new_matrix(NULL, 10000, 5000);
+    EXPECT_EQ(error, ERROR_NULL_PTR_REFERENCE);
+}
+
+TEST(free_matrix, free_matrix) {
+    matrix_t matrix;
+    init_matrix(&matrix);
+    matrix_error_t error = new_matrix(&matrix, 10000, 5000);
+    EXPECT_EQ(error, OK);
+    error = free_matrix(&matrix);
+    EXPECT_EQ(error, OK);
+}
+
+TEST(free_matrix, free_matrix_null) {
+    matrix_error_t error = free_matrix(NULL);
+    EXPECT_EQ(error, ERROR_NULL_PTR_REFERENCE);
+}
+
+int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
+

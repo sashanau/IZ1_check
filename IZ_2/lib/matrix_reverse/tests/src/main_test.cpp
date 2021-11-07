@@ -1,15 +1,15 @@
 #include "gtest/gtest.h"
-
-extern "C"{
+extern "C" {
 #include "matrix.h"
 #include "matrix_reverse.h"
 }
 
-// Тест прямоугольной матрицы вытянутой по горизонтали, делаю выботочную проверку из крайних точек
-TEST(reverse_matrix, reverse_matrix_horizontal){
+// Тест прямоугольной матрицы вытянутой по горизонтали,
+// делаю выботочную проверку из крайних точек
+TEST(reverse_matrix, reverse_matrix_horizontal) {
     matrix_t matrix;
     init_matrix(&matrix);
-    new_matrix(&matrix, 100,10);
+    new_matrix(&matrix, 100, 10);
 
     set_matrix_rand_elem_1_9(&matrix);
     set_elem(&matrix, 0, 0, 228);
@@ -21,12 +21,13 @@ TEST(reverse_matrix, reverse_matrix_horizontal){
     EXPECT_EQ(228, matrix.array[0 * matrix.size_x + 9]);
     free_matrix(&matrix);
 }
-// Тест прямоугольной матрицы вытянутой по вертикали, делаю выботочную проверку из крайних точек
-TEST(reverse_matrix, reverse_matrix_vertical){
+// Тест прямоугольной матрицы вытянутой по
+// вертикали, делаю выботочную проверку из крайних точек
+TEST(reverse_matrix, reverse_matrix_vertical) {
     matrix_t matrix;
     init_matrix(&matrix);
     set_matrix_rand_elem_1_9(&matrix);
-    new_matrix(&matrix, 10,100);
+    new_matrix(&matrix, 10, 100);
 
     set_elem(&matrix, 0, 0, 228);
     set_elem(&matrix, 3, 3, 228);
@@ -38,10 +39,10 @@ TEST(reverse_matrix, reverse_matrix_vertical){
     free_matrix(&matrix);
 }
 
-TEST(reverse_matrix, reverse_matrix_vertical_line){
+TEST(reverse_matrix, reverse_matrix_vertical_line) {
     matrix_t matrix;
     init_matrix(&matrix);
-    new_matrix(&matrix, 1,100);
+    new_matrix(&matrix, 1, 100);
 
     set_matrix_rand_elem_1_9(&matrix);
     set_elem(&matrix, 0, 0, 228);
@@ -54,10 +55,10 @@ TEST(reverse_matrix, reverse_matrix_vertical_line){
     free_matrix(&matrix);
 }
 
-TEST(reverse_matrix, reverse_matrix_horizontal_line){
+TEST(reverse_matrix, reverse_matrix_horizontal_line) {
     matrix_t matrix;
     init_matrix(&matrix);
-    new_matrix(&matrix, 100,1);
+    new_matrix(&matrix, 100, 1);
 
     set_matrix_rand_elem_1_9(&matrix);
     set_elem(&matrix, 0, 0, 228);
@@ -70,51 +71,13 @@ TEST(reverse_matrix, reverse_matrix_horizontal_line){
     free_matrix(&matrix);
 }
 
-TEST(reverse_matrix, reverse_matrix_null){
+TEST(reverse_matrix, reverse_matrix_null) {
     matrix_t *matrix = NULL;
     reverse_matrix(matrix, 0);
-}
-
-TEST(new_matrix, new_matrix){
-    matrix_t matrix;
-    init_matrix(&matrix);
-    matrix_error_t error = new_matrix(&matrix, 10000, 5000);
-    EXPECT_EQ(error, OK);
-    for(int i = 0; i < 5000; i++){
-        for(int j = 0; j < 10000; j++){
-            EXPECT_EQ(matrix.array[i * matrix.size_x + j], 0);
-        }
-    }
-    free_matrix(&matrix);
-}
-
-TEST(new_matrix, new_matrix_less_than_0){
-    matrix_t matrix;
-    init_matrix(&matrix);
-    matrix_error_t error = new_matrix(&matrix, 0, 5000);
-    EXPECT_EQ(error, ERROR_OUT_RANGE_SET);
-}
-
-TEST(new_matrix, new_matrix_null){
-    matrix_error_t error = new_matrix(NULL, 10000, 5000);
-    EXPECT_EQ(error, ERROR_NULL_PTR_REFERENCE);
-}
-
-TEST(free_matrix, free_matrix){
-    matrix_t matrix;
-    init_matrix(&matrix);
-    matrix_error_t error = new_matrix(&matrix, 10000, 5000);
-    EXPECT_EQ(error, OK);
-    error = free_matrix(&matrix);
-    EXPECT_EQ(error, OK);
-}
-
-TEST(free_matrix, free_matrix_null){
-    matrix_error_t error = free_matrix(NULL);
-    EXPECT_EQ(error, ERROR_NULL_PTR_REFERENCE);
 }
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
+

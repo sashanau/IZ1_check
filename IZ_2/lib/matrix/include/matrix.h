@@ -1,10 +1,10 @@
-#ifndef IZ_2_MATRIX_H
-#define IZ_2_MATRIX_H
-
+#ifndef _IZ_2_MATRIX_H_
+#define _IZ_2_MATRIX_H_
 #include "errors.h"
 #include <stddef.h>
 
-typedef struct matrix{
+
+typedef struct matrix {
     int *array;
     size_t size_x;
     size_t size_y;
@@ -13,5 +13,8 @@ typedef struct matrix{
 void init_matrix(matrix_t *matrix);
 matrix_error_t set_elem(matrix_t *matrix, size_t x, size_t y, int value);
 matrix_error_t set_matrix_rand_elem_1_9(matrix_t *matrix);
+matrix_error_t new_matrix(matrix_t *matrix, size_t size_x, size_t size_y);
+matrix_error_t free_matrix(matrix_t *matrix);
 
-#endif //IZ_2_MATRIX_H
+#endif //_IZ_2_MATRIX_H_
+
