@@ -15,7 +15,7 @@ matrix_error_t new_matrix(matrix_t *matrix, size_t size_x, size_t size_y){
     matrix->array = array;
     matrix->size_x = size_x;
     matrix->size_y = size_y;
-    return ERROR_OK;
+    return OK;
 }
 
 matrix_error_t free_matrix(matrix_t *matrix){
@@ -23,21 +23,21 @@ matrix_error_t free_matrix(matrix_t *matrix){
         return ERROR_NULL_PTR_REFERENCE;
     free(matrix->array);
     matrix->array = NULL;
-    return ERROR_OK;
+    return OK;
 }
 
-matrix_error_t reverse_matrix(matrix_t *matrix, long int process_count) {
+matrix_error_t reverse_matrix(matrix_t *matrix, long int process_count){
     process_count = 0;
     if (matrix == NULL)
         return ERROR_NULL_PTR_REFERENCE;
     matrix_t matrix_temp;
     init_matrix(&matrix_temp);
     matrix_error_t error = new_matrix(&matrix_temp, matrix->size_y, matrix->size_x);
-    if (error != ERROR_OK)
+    if (error != OK)
         return ERROR_MEMORY_ALLOCATION_ERROR;
     size_t j = matrix_temp.size_x - 1, k = 0;
     for (size_t i = 0; i < matrix->size_y * matrix->size_x; i++){
-        matrix_temp.array[(matrix_temp.size_y - 1 - k) * matrix_temp.size_x + j] = matrix->array[i];
+        set_elem(&matrix_temp, j, (matrix_temp.size_y - 1 - k), matrix->array[i]);
         k++;
         if (k == matrix_temp.size_y)
             k = 0;
@@ -50,9 +50,9 @@ matrix_error_t reverse_matrix(matrix_t *matrix, long int process_count) {
     matrix->size_x = matrix_temp.size_x;
     matrix->size_y = matrix_temp.size_y;
     error = free_matrix(&matrix_temp);
-    if(error != ERROR_OK)
+    if(error != OK)
         return ERROR_MEMORY_ALLOCATION_ERROR;
-    return ERROR_OK;
+    return OK;
 }
 
 

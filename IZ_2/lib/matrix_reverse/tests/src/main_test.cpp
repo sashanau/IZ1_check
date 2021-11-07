@@ -79,7 +79,7 @@ TEST(new_matrix, new_matrix){
     matrix_t matrix;
     init_matrix(&matrix);
     matrix_error_t error = new_matrix(&matrix, 10000, 5000);
-    EXPECT_EQ(error, ERROR_OK);
+    EXPECT_EQ(error, OK);
     for(int i = 0; i < 5000; i++){
         for(int j = 0; j < 10000; j++){
             EXPECT_EQ(matrix.array[i * matrix.size_x + j], 0);
@@ -104,9 +104,9 @@ TEST(free_matrix, free_matrix){
     matrix_t matrix;
     init_matrix(&matrix);
     matrix_error_t error = new_matrix(&matrix, 10000, 5000);
-    EXPECT_EQ(error, ERROR_OK);
+    EXPECT_EQ(error, OK);
     error = free_matrix(&matrix);
-    EXPECT_EQ(error, ERROR_OK);
+    EXPECT_EQ(error, OK);
 }
 
 TEST(free_matrix, free_matrix_null){

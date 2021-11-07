@@ -1,5 +1,0 @@
-add_library(matrix_reverse_parallel_shared_for_main SHARED src/matrix_reverse_parallel_for_main.c)
-target_include_directories(matrix_reverse_parallel_shared_for_main PUBLIC include)
-target_link_libraries(matrix_reverse_parallel_shared_for_main PUBLIC errors)
-target_link_libraries(matrix_reverse_parallel_shared_for_main PUBLIC matrix)
-target_link_libraries(matrix_reverse_parallel_shared_for_main PUBLIC utils)

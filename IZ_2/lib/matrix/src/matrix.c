@@ -16,7 +16,7 @@ matrix_error_t set_elem(matrix_t *matrix, size_t x, size_t y, int value){
     if (x > matrix->size_x || y > matrix->size_y)
         return ERROR_OUT_RANGE_SET;
     matrix->array[(y * matrix->size_x) + x] = value;
-    return ERROR_OK;
+    return OK;
 }
 
 matrix_error_t set_matrix_rand_elem_1_9(matrix_t *matrix){
@@ -25,5 +25,5 @@ matrix_error_t set_matrix_rand_elem_1_9(matrix_t *matrix){
     for (size_t i = 0; i < matrix->size_x * matrix->size_y; i++){
         matrix->array[i] = (rand() % 9) + 1;
     }
-    return ERROR_OK;
+    return OK;
 }

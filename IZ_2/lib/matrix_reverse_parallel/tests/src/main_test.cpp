@@ -81,12 +81,12 @@ TEST(new_matrix_mmap, new_matrix_mmap){
     matrix_t matrix;
     init_matrix(&matrix);
     error = new_matrix_mmap(&matrix, 10, 10);
-    EXPECT_EQ(error, ERROR_OK);
+    EXPECT_EQ(error, OK);
     for (size_t i = 0; i < 10 * 10; i++){
         EXPECT_EQ(matrix.array[i], 0);
     }
     error = free_matrix_mmap(&matrix);
-    EXPECT_EQ(error, ERROR_OK);
+    EXPECT_EQ(error, OK);
 }
 
 TEST(new_matrix_mmap, new_matrix_mmap_null){
@@ -107,9 +107,9 @@ TEST(free_matrix, free_matrix){
     matrix_t matrix;
     init_matrix(&matrix);
     matrix_error_t error = new_matrix_mmap(&matrix, 10000, 5000);
-    EXPECT_EQ(error, ERROR_OK);
+    EXPECT_EQ(error, OK);
     error = free_matrix_mmap(&matrix);
-    EXPECT_EQ(error, ERROR_OK);
+    EXPECT_EQ(error, OK);
 }
 
 TEST(free_matrix, free_matrix_null){
@@ -118,7 +118,7 @@ TEST(free_matrix, free_matrix_null){
 }
 
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv){
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
