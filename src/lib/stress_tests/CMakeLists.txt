@@ -1,5 +1,0 @@
-if(BUILD_TESTS)
-    add_executable(matrix_reverse_stress_tests src/main_test.cpp)
-    target_link_libraries(matrix_reverse_stress_tests matrix matrix_reverse matrix_reverse_parallel_shared GTest::GTest)
-    add_test(NAME matrix_reverse_stress_tests COMMAND matrix_reverse_stress_tests)
-endif()
