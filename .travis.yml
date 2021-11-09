@@ -7,20 +7,30 @@ install:
  - sudo apt-get install --yes libgtest-dev
  - sudo apt-get install --yes gcovr
 
+
 jobs:
  include:
-  - stage: Build
+  - stage: Build_linear
     script:
-     - cmake -B build -DCMAKE_BUILD_TYPE=Release
+     - cmake -B build -DCMAKE_BUILD_TYPE=Release -DCHOOSE_MODE=OFF
+     - make -C build
+  - stage: Build_parallel
+    script:
+     - cmake -B build -DCMAKE_BUILD_TYPE=Release -DCHOOSE_MODE=ON
      - make -C build
   - stage: Test
     script:
      - cmake -B build -DCMAKE_BUILD_TYPE=Release -DWITH_TESTS=1
      - make -C build
      - cd build && ctest --output-on-failure
-  - stage: Sanitaizer
+  - stage: Sanitaizer_linear
     script:
-     - cmake -B build -DCMAKE_BUILD_TYPE=Release -DWITH_SANITIZERS=1
+     - cmake -B build -DCMAKE_BUILD_TYPE=Release -DCHOOSE_MODE=OFF -DWITH_SANITIZERS=1
+     - make -C build
+     - cd build && ctest --output-on-failure
+  - stage: Sanitaizer_parallel
+    script:
+     - cmake -B build -DCMAKE_BUILD_TYPE=Release -DCHOOSE_MODE=ON -DWITH_SANITIZERS=1
      - make -C build
      - cd build && ctest --output-on-failure
   - stage: Coverage

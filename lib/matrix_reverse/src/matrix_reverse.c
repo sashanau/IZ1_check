@@ -10,7 +10,7 @@ matrix_error_t new_matrix(matrix_t *matrix, size_t size_x, size_t size_y) {
     int *array = (int *)malloc(sizeof(int) * (size_y * size_x));
     if (array == NULL)
         return ERROR_MEMORY_ALLOCATION_ERROR;
-    for (int i = 0; i < size_y * size_x; i++){
+    for (int i = 0; i < size_y * size_x; i++) {
         array[i] = 0;
     }
     matrix->array = array;
@@ -49,9 +49,7 @@ matrix_error_t reverse_matrix(matrix_t *matrix, long int process_count) {
     matrix->size_x = matrix_temp.size_x;
     matrix->size_y = matrix_temp.size_y;
     error = free_matrix(&matrix_temp);
-    if(error != OK)
-        return error;
-    return OK;
+    return error;
 }
 
 

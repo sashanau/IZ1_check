@@ -32,13 +32,13 @@ matrix_error_t free_matrix_mmap(matrix_t *matrix) {
         return ERROR_NULL_PTR_REFERENCE;
     int error;
     error = munmap(matrix->array, ((matrix->size_x * matrix->size_y) * sizeof(int)));
-    if (error != 0)
+    if (error != OK)
         return ERROR_NULL_PTR_REFERENCE;
     matrix->array = NULL;
     matrix->size_y = 0;
     matrix->size_x = 0;
     matrix = NULL;
-    return OK;
+    return error;
 }
 
 void set_elems_matrix_temp(matrix_t *matrix, matrix_t *matrix_temp, size_t start_fork, size_t end_fork) {
@@ -90,9 +90,7 @@ matrix_error_t matrix_reverse_parallel(matrix_t *matrix, long int process_count)
                     return ERROR_FORK_CLOSE;
                 }
             }
-            error = free_matrix_mmap(&matrix_temp);
-            if (error != OK)
-                return error;
+            free_matrix_mmap(&matrix_temp);
             return ERROR_FORK_OPEN;
         }
     }
@@ -111,8 +109,6 @@ matrix_error_t matrix_reverse_parallel(matrix_t *matrix, long int process_count)
         matrix->size_x = matrix_temp.size_x;
         matrix->size_y = matrix_temp.size_y;
         error = free_matrix_mmap(&matrix_temp);
-        if (error != OK)
-            return error;
-        return OK;
+        return error;
     }
 }

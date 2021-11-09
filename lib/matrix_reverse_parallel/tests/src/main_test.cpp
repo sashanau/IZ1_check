@@ -130,7 +130,7 @@ TEST(free_matrix_mmap, free_matrix_mmap_null) {
 }
 
 
-int main(int argc, char **argv){
+int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
