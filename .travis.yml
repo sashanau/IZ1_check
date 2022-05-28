@@ -1,0 +1,42 @@
+os: linux
+dist: focal
+language: c
+
+install:
+ - sudo apt-get update
+ - sudo apt-get install --yes libgtest-dev
+ - sudo apt-get install --yes gcovr
+
+
+jobs:
+ include:
+  - stage: Build_linear
+    script:
+     - cmake -B build -DCMAKE_BUILD_TYPE=Release -DCHOOSE_MODE=OFF
+     - make -C build
+  - stage: Build_parallel
+    script:
+     - cmake -B build -DCMAKE_BUILD_TYPE=Release -DCHOOSE_MODE=ON
+     - make -C build
+  - stage: Test
+    script:
+     - cmake -B build -DCMAKE_BUILD_TYPE=Release -DWITH_TESTS=1
+     - make -C build
+     - cd build && ctest --output-on-failure
+  - stage: Sanitaizer_linear
+    script:
+     - cmake -B build -DCMAKE_BUILD_TYPE=Release -DCHOOSE_MODE=OFF -DWITH_SANITIZERS=1
+     - make -C build
+     - cd build && ctest --output-on-failure
+  - stage: Sanitaizer_parallel
+    script:
+     - cmake -B build -DCMAKE_BUILD_TYPE=Release -DCHOOSE_MODE=ON -DWITH_SANITIZERS=1
+     - make -C build
+     - cd build && ctest --output-on-failure
+  - stage: Coverage
+    script:
+     - cmake -B build -DCMAKE_BUILD_TYPE=Release -DWITH_COVERAGE=1
+     - make -C build all test
+     - curl -Os https://uploader.codecov.io/latest/linux/codecov
+     - chmod +x codecov
+     - ./codecov -f <(gcovr -e '.*/tests/.*' -x)
